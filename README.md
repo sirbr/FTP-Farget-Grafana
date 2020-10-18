@@ -20,23 +20,38 @@ On macOs with Homebrew, you can just execute:
 ```bash
 brew install weaveworks/tap/eksctl
 ```
-This utility will use the same _credentials_ file as we explored for the AWS cli, located under '~/.aws/credentials'
 
 #### Test
 ```eksctl version```
 
-### kubectl - the commandline K8s tool
+### Setup docker-compose.yml
 
-#### install _kubectl
 ```bash
-brew install kubectl 
-```
-or 
-```bash
-brew install kubernetes-cli 
-```
+version: '2'
 
-#### check kubectl
-```kubectl version --client```
+services:
+  grafana:
+    image: bitnami/grafana:6
+    ports:
+      - '3000:3000'
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "bitnami"
+      GF_RENDERING_SERVER_URL: "http://grafana-image-renderer:8080/render"
+      GF_RENDERING_CALLBACK_URL: "http://grafana:3000/"
+  grafana-image-renderer:
+    image: bitnami/grafana-image-renderer:1
+    ports:
+      - '8080:8080'
+    environment:
+      HTTP_HOST: "0.0.0.0"
+      HTTP_PORT: "8080"
+      ENABLE_METRICS: 'true'
+      ```
+
+
+
+
+
+
 
 
