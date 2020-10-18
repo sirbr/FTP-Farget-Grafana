@@ -36,13 +36,7 @@ or
 brew install kubernetes-cli 
 ```
 
-
-
-
 #### check kubectl
+```kubectl version --client```
 
-* Linux:  
-```kubectl version --short --client```
-* Windows:  
-```kubectl.exe version --short --client```
 
