@@ -31,25 +31,35 @@ version: '2'
 
 services:
   grafana:
-    image: bitnami/grafana:6
+    image: grafana/grafana
     ports:
-      - '3000:3000'
+      - 3000:3000
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: "bitnami"
-      GF_RENDERING_SERVER_URL: "http://grafana-image-renderer:8080/render"
-      GF_RENDERING_CALLBACK_URL: "http://grafana:3000/"
+      GF_SERVER_ROOT_URL=http://localhost:3000
+      GF_SECURITY_ADMIN_PASSWORD=<Password>
+      GF_RENDERING_SERVER_URL=http://localhost:8081/render
+      GF_RENDERING_CALLBACK_URL=http://localhost:3000/
+      GF_LOG_FILTERS=rendering:debug
+      GF_LOG_LEVEL=info
+    logging:
+      driver: awslogs
+      options: 
+      awslogs-create-group: true
+      awslogs-group: "/ecs/grafana-fargate"
+      awslogs-region: <region>
+      awslogs-stream-prefix: grafana
   grafana-image-renderer:
-    image: bitnami/grafana-image-renderer:1
-    ports:
-      - '8080:8080'
-    environment:
-      HTTP_HOST: "0.0.0.0"
-      HTTP_PORT: "8080"
-      ENABLE_METRICS: 'true'
+    image: grafana/grafana-image-renderer
+    expose:
+        - 8081
+    logging:
+      driver: awslogs
+      options: 
+      awslogs-create-group: true
+      awslogs-group: "/ecs/grafana-render-fargate"
+      awslogs-region: <region>
+      awslogs-stream-prefix: grafana
 ```
-
-
-
 
 
 
