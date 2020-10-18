@@ -46,7 +46,7 @@ services:
       HTTP_HOST: "0.0.0.0"
       HTTP_PORT: "8080"
       ENABLE_METRICS: 'true'
-      ```
+```
 
 
 
