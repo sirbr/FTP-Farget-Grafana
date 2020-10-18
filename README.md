@@ -15,7 +15,6 @@ Default output format [None]:
 ### Setup of eksctl
 
 #### Installation
-```
 On macOs with Homebrew, you can just execute:
 
 ```bash
@@ -29,10 +28,13 @@ This utility will use the same _credentials_ file as we explored for the AWS cli
 ### kubectl - the commandline K8s tool
 
 #### install _kubectl
-```brew install kubectl 
+```bash
+brew install kubectl 
 ```
 or 
-```brew install kubernetes-cli
+```bash
+brew install kubernetes-cli 
+```
 
 
 
