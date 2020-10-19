@@ -35,30 +35,16 @@ services:
     ports:
       - 3000:3000
     environment:
-      GF_SERVER_ROOT_URL="http://grafana:3000"
+      GF_SERVER_ROOT_URL=http://grafana:3000
       GF_SECURITY_ADMIN_PASSWORD=<Password> ###not a secure option
       GF_RENDERING_SERVER_URL=http://renderer:8081/render
-      GF_RENDERING_CALLBACK_URL="http://grafana:3000/"
+      GF_RENDERING_CALLBACK_URL=http://grafana:3000/
       GF_LOG_FILTERS=rendering:debug
       GF_LOG_LEVEL=info
-    logging:
-      driver: awslogs
-      options: 
-      awslogs-create-group: true
-      awslogs-group: "/ecs/grafana-fargate"
-      awslogs-region: <region>
-      awslogs-stream-prefix: grafana
   grafana-image-renderer:
     image: grafana/grafana-image-renderer
     expose:
         - 8081
-    logging:
-      driver: awslogs
-      options: 
-      awslogs-create-group: true
-      awslogs-group: "/ecs/grafana-render-fargate"
-      awslogs-region: <region>
-      awslogs-stream-prefix: grafana
 ```
 
 Grafana needs permissions granted via IAM to be able to read CloudWatch metrics and EC2 tags/instances/regions. 
