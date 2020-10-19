@@ -36,7 +36,7 @@ services:
       - 3000:3000
     environment:
       GF_SERVER_ROOT_URL=http://localhost:3000
-      GF_SECURITY_ADMIN_PASSWORD=<Password>
+      GF_SECURITY_ADMIN_PASSWORD=<Password> ###not a secure option
       GF_RENDERING_SERVER_URL=http://localhost:8081/render
       GF_RENDERING_CALLBACK_URL=http://localhost:3000/
       GF_LOG_FILTERS=rendering:debug
@@ -61,6 +61,69 @@ services:
       awslogs-stream-prefix: grafana
 ```
 
+Grafana needs permissions granted via IAM to be able to read CloudWatch metrics and EC2 tags/instances/regions. 
+Here is a role example:
+```bash
+  ECSTaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: [ecs-tasks.amazonaws.com]
+          Action: ['sts:AssumeRole']
+      Path: /
+      Policies:
+        - PolicyName: AmazonECSTaskExecutionRolePolicy
+          PolicyDocument:
+            Statement:
+            - Sid: AllowReadingMetricsFromCloudWatch
+              Effect: Allow
+              Action:
+                -cloudwatch:DescribeAlarmsForMetric
+                -cloudwatch:DescribeAlarmHistory
+                -cloudwatch:DescribeAlarms
+                -cloudwatch:ListMetrics
+                -cloudwatch:GetMetricStatistics
+                -cloudwatch:GetMetricData
+              Resource: '*'
+            - Sid: AllowReadingLogsFromCloudWatch
+              Effect: Allow
+              Action:
+                -logs:DescribeLogGroups
+                -logs:GetLogGroupFields
+                -logs:StartQuery
+                -logs:StopQuery
+                -logs:GetQueryResults
+                -logs:GetLogEvents
+              Resource: '*'
+            - Sid: AllowReadingTagsInstancesRegionsFromEC2
+              Effect: Allow
+              Action:
+                -ec2:DescribeTags 
+                -ec2:DescribeInstances
+                -ec2:DescribeRegions
+            - Sid: AllowReadingResourcesForTags
+              Effect: Allow
+              Action:
+                -tag:GetResources
+              Resource: '*'
+```
+### Allow inbound access to Grafana’s default port: 3000
+Allow inbound requests to port 3000
+
+### Grafana’s Public IP
+ECS > Tasks 
+
+Grafana default credentials are username: admin and password: admin
+You can chosse the standard Grafana image to get password stored in AWS Systems Manager Parameter Store
+
+
+##Usefill links 
+
+* [ECS Cluster with a Fargate Task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cli-tutorial-fargate.html)
+* [Using AWS CloudWatch in Grafana](https://grafana.com/docs/grafana/latest/datasources/cloudwatch/)
 
 
 
