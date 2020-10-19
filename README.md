@@ -1,4 +1,4 @@
-# FTP-Farget-Grafana
+# FTP-Fargat-Grafana
 
 ## Prepare local env
 
