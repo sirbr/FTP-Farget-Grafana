@@ -35,10 +35,10 @@ services:
     ports:
       - 3000:3000
     environment:
-      GF_SERVER_ROOT_URL=http://localhost:3000
+      GF_SERVER_ROOT_URL="http://grafana:3000"
       GF_SECURITY_ADMIN_PASSWORD=<Password> ###not a secure option
-      GF_RENDERING_SERVER_URL=http://localhost:8081/render
-      GF_RENDERING_CALLBACK_URL=http://localhost:3000/
+      GF_RENDERING_SERVER_URL=http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL="http://grafana:3000/"
       GF_LOG_FILTERS=rendering:debug
       GF_LOG_LEVEL=info
     logging:
@@ -120,10 +120,12 @@ Grafana default credentials are username: admin and password: admin
 You can chosse the standard Grafana image to get password stored in AWS Systems Manager Parameter Store
 
 
-## Usefill links 
+## seful links 
 
 * [ECS Cluster with a Fargate Task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cli-tutorial-fargate.html)
 * [Using AWS CloudWatch in Grafana](https://grafana.com/docs/grafana/latest/datasources/cloudwatch/)
+* [Image rendering](https://grafana.com/docs/grafana/latest/administration/image_rendering/)
+* [Run Grafana Docker image](https://grafana.com/docs/grafana/latest/installation/docker/)
 
 
 
