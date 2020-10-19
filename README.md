@@ -120,7 +120,7 @@ Grafana default credentials are username: admin and password: admin
 You can chosse the standard Grafana image to get password stored in AWS Systems Manager Parameter Store
 
 
-##Usefill links 
+## Usefill links 
 
 * [ECS Cluster with a Fargate Task](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-cli-tutorial-fargate.html)
 * [Using AWS CloudWatch in Grafana](https://grafana.com/docs/grafana/latest/datasources/cloudwatch/)
